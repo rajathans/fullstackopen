@@ -1,55 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const App = () => {
-    const course = 'Half Stack application development'
-    const part1 = 'Fundamentals of React'
-    const exercises1 = 10
-    const part2 = 'Using props to pass data'
-    const exercises2 = 7
-    const part3 = 'State of a component'
-    const exercises3 = 14
+const App = (props) => {
+  const [counter, setCounter] = useState(0)
 
+  const setToValue = (value) => () => setCounter(value) // The function is not called, only defined
 
-    const Header = (props) => {
-        return (
-            <>
-                <h1>{props.course}</h1>
-            </>
-        )
-    }
+  console.log('rendering...', counter)
 
-    const Part = (props) => {
-        return (
-            <>
-                <p>{props.part} {props.exercise}</p>
-            </>
-        )
-    }
-
-    const Content = () => {
-        return (
-            <>
-                <Part part={part1} exercise={exercises1} />
-                <Part part={part2} exercise={exercises2} />
-                <Part part={part3} exercise={exercises3} />
-            </>
-        )
-    }
-
-    const Total = () => {
-        return (
-            <><p>Number of exercises {exercises1 + exercises2 + exercises3}</p></>
-        )
-    }
-
+  const Display = (props) => {
     return (
-        <div>
-            <Header course={course} />
-            <Content />
-            <Total />
-        </div>
+      <div>
+        {props.counter}
+      </div>
     )
+  }
+
+  const Button = (props) => {
+    return (
+      <>
+        <button onClick={setToValue(props.value)}>
+          {props.text}
+        </button>
+      </>
+    )
+  }
+
+  return (
+    <div>
+      <Display counter={counter}/>
+      <Button value={counter+1} text="plus"/>
+      <Button value={counter-1} text="minus"/>
+      <Button value={0} text="zero"/>
+    </div>
+  )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+)
